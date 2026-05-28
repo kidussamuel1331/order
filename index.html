@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidus Order | Premium E-Commerce</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Importing Luxury and Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@200;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* 🎨 PREMIUM DESIGN SYSTEM */
+        :root {
+            /* Palette */
+            --primary: #4361ee;       /* Electric Blue */
+            --primary-glow: rgba(40, 71, 210, 0.4);
+            --accent: #f72585;        /* Cyber Pink */
+            --telebirr-green: #48b85c; 
+            --telebirr-dark: #2e7d32;
+            
+            /* Glassmorphism Tokens */
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            
+            /* Dark Mode Tokens */
+            --dark-glass-bg: rgba(17, 24, 39, 0.75);
+            --dark-glass-border: rgba(255, 255, 255, 0.08);
+            
+            /* Text & Layout */
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --radius: 16px;
+            --font-main: 'Outfit', sans-serif;
+        }
+
+        /* Dark Mode Overrides */
+        [data-theme="dark"] {
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --glass-bg: var(--dark-glass-bg);
+            --glass-border: var(--dark-glass-border);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
+        
+        body {
+            /* 🌌 Animated Aurora Background */
+            background-color: #f3f4f6;
+            background-image: 
+                radial-gradient(at 0% 0%, rgb(50, 16, 221) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, rgb(255, 255, 255) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, rgb(178, 77, 112) 0, transparent 50%);
+            background-size: 200% 200%;
+            animation: aurora 15s ease infinite;
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        [data-theme="dark"] body {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(67, 97, 238, 0.2) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, rgba(247, 37, 133, 0.15) 0, transparent 50%);
+            background-color: #0f172a;
+        }
+
+        @keyframes aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 🚀 LOADER */
+        #loader {
+            position: fixed; inset: 0; background: #fff; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        [data-theme="dark"] #loader { background: #0f172a; }
+
+        .loader-orb {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 0 40px var(--primary-glow);
+            animation: pulse-orb 1.5s infinite ease-in-out;
+            margin-bottom: 20px;
+        }
+        @keyframes pulse-orb {
+            0% { transform: scale(0.8); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 60px var(--primary-glow); }
+            100% { transform: scale(0.8); opacity: 0.7; }
+        }
+
+        /* 🧭 NAVBAR (Glass) */
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 1.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .brand {
+            font-size: 1.5rem; font-weight: 800; 
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none; display: flex; align-items: center; gap: 10px;
+        }
+
+        .search-container {
+            flex: 1; max-width: 500px; margin: 0 2rem; position: relative; display: none;
+        }
+        @media(min-width: 768px) { .search-container { display: block; } }
+
+        .search-input {
+            width: 100%; padding: 12px 20px 12px 45px;
+            border-radius: 50px; border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.5); color: var(--text-main);
+            outline: none; transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        [data-theme="dark"] .search-input { background: rgba(0,0,0,0.3); }
+        .search-input:focus { 
+            background: rgba(255,255,255,0.9); 
+            box-shadow: 0 0 0 4px var(--primary-glow); 
+            border-color: transparent;
+        }
+        .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+
+        .nav-actions { display: flex; align-items: center; gap: 1rem; }
+        
+        .nav-icon-btn {
+            background: rgba(255,255,255,0.5); border: 1px solid var(--glass-border); 
+            width: 44px; height: 44px; border-radius: 50%;
+            color: var(--text-main); cursor: pointer; 
+            display: flex; justify-content: center; align-items: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(5px);
+        }
+        .nav-icon-btn:hover { 
+            transform: translateY(-3px) scale(1.1); 
+            background: var(--primary); color: white; border-color: var(--primary);
+            box-shadow: 0 10px 20px -5px var(--primary-glow);
+        }
+        .badge {
+            position: absolute; top: -5px; right: -5px;
+            background: var(--accent); color: white; font-size: 0.7rem;
+            width: 20px; height: 20px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 700; border: 2px solid var(--glass-bg);
+        }
+
+        /* 🏷️ CATEGORY TABS */
+        .category-scroll {
+            overflow-x: auto; white-space: nowrap; padding: 1.5rem;
+            background: var(--glass-bg); border-bottom: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px); -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        }
+        .cat-chip {
+            display: inline-block; padding: 10px 24px; margin-right: 12px;
+            background: rgba(255,255,255,0.4); border: 1px solid var(--glass-border);
+            border-radius: 50px; font-weight: 600; font-size: 0.9rem;
+            color: var(--text-muted); cursor: pointer; transition: all 0.3s;
+        }
+        .cat-chip:hover { transform: translateY(-2px); border-color: var(--primary); color: var(--primary); }
+        .cat-chip.active { 
+            background: linear-gradient(135deg, var(--primary), var(--accent)); 
+            color: white; border-color: transparent; 
+            box-shadow: 0 8px 15px -3px var(--primary-glow); 
+        }
+
+        /* 🛍️ PRODUCT GRID & ANIMATIONS */
+        main { padding: 2rem; max-width: 1400px; margin: 0 auto; padding-bottom: 100px;}
+        
+        .section-header { margin-bottom: 2rem; opacity: 0; transform: translateY(30px); transition: 1s; }
+        .section-header.visible { opacity: 1; transform: translateY(0); }
+        .section-title { font-size: 2rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
+
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px; margin-bottom: 4rem;
+        }
+
+        /* 🧩 PRODUCT CARD (Premium Glass) */
+        .card {
+            background: var(--glass-bg); 
+            border: 1px solid var(--glass-border);
+            border-radius: 20px; overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; position: relative;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            /* Initial state for scroll animation */
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        .card.visible { opacity: 1; transform: translateY(0); }
+
+        .card:hover { 
+            transform: translateY(-10px) scale(1.02); 
+            box-shadow: 0 20px 40px -5px rgba(0,0,0,0.1);
+            border-color: rgba(255,255,255,0.8);
+            z-index: 2;
+        }
+        [data-theme="dark"] .card:hover { border-color: rgba(255,255,255,0.2); }
+
+        .card-img-wrapper { position: relative; padding-top: 75%; overflow: hidden; background: #e5e7eb; }
+        .card-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; transition: transform 0.6s;
+        }
+        .card:hover .card-img { transform: scale(1.1); }
+
+        .card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; color: var(--text-main); }
+        .card-cat { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .card-price { font-size: 1.3rem; font-weight: 800; color: var(--primary); margin-top: auto; margin-bottom: 15px; }
+
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn {
+            padding: 12px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer;
+            font-size: 0.9rem; transition: all 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;
+        }
+        .btn-primary { 
+            background: var(--text-main); color: white; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .btn-primary:hover { background: var(--primary); transform: translateY(-2px); box-shadow: 0 8px 15px var(--primary-glow); }
+        
+        .btn-outline { background: rgba(255,255,255,0.5); border: 1px solid var(--glass-border); color: var(--text-main); }
+        .btn-outline:hover { background: white; border-color: var(--primary); color: var(--primary); }
+
+        /* 🌐 SERVICE CARD */
+        .card.service { border: 2px solid var(--telebirr-green); background: linear-gradient(to bottom right, rgba(72, 184, 92, 0.05), var(--glass-bg)); }
+        .card.service .card-price { color: var(--telebirr-green); }
+        .btn-service { 
+            background: linear-gradient(135deg, var(--telebirr-green), var(--telebirr-dark)); 
+            color: white; width: 100%; box-shadow: 0 4px 15px rgba(72, 184, 92, 0.3); 
+        }
+        .btn-service:hover { box-shadow: 0 6px 20px rgba(72, 184, 92, 0.5); transform: translateY(-2px); }
+
+        /* 🛒 CART SIDEBAR (Glass) */
+        .cart-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); z-index: 1500;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s;
+        }
+        .cart-overlay.active { opacity: 1; pointer-events: all; }
+
+        .cart-drawer {
+            position: fixed; top: 0; right: -450px; width: 420px; max-width: 100%;
+            height: 100vh; background: var(--glass-bg); z-index: 1600;
+            transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column; 
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border-left: 1px solid var(--glass-border);
+            box-shadow: -20px 0 50px rgba(0,0,0,0.2);
+        }
+        .cart-drawer.active { right: 0; }
+
+        .drawer-header { padding: 1.5rem; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; }
+        .drawer-body { flex: 1; overflow-y: auto; padding: 1.5rem; }
+        .drawer-footer { padding: 1.5rem; border-top: 1px solid var(--glass-border); background: rgba(255,255,255,0.3); }
+
+        .cart-item { display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dashed var(--glass-border); }
+        .cart-img { width: 70px; height: 70px; border-radius: 12px; object-fit: cover; background: #eee; }
+        .cart-details { flex: 1; }
+        .cart-title { font-size: 1rem; font-weight: 700; color: var(--text-main); }
+        .cart-price { font-size: 0.9rem; color: var(--primary); font-weight: 600; margin-top: 4px; }
+        .cart-controls { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+        .qty-btn { 
+            width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--glass-border); 
+            background: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
+        }
+        .qty-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* 💳 PAYMENT BUTTONS */
+        .btn-pay-telebirr {
+            background: linear-gradient(135deg, #48b85c, #3da04d); 
+            color: white; border: none; width: 100%; padding: 16px;
+            border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 12px;
+            margin-bottom: 12px; box-shadow: 0 10px 25px rgba(72, 184, 92, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-pay-telebirr:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(72, 184, 92, 0.5); }
+
+        /* 💳 TELEBIRR MODAL */
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+            z-index: 2000; display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal-backdrop.active { opacity: 1; pointer-events: all; }
+
+        .modal-content {
+            background: var(--glass-bg); width: 90%; max-width: 420px;
+            border-radius: 24px; border: 1px solid var(--glass-border);
+            transform: scale(0.8) translateY(20px); transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal-backdrop.active .modal-content { transform: scale(1) translateY(0); }
+
+        .telebirr-header {
+            background: linear-gradient(135deg, #48b85c 0%, #2e7d32 100%);
+            padding: 25px; text-align: center; color: white;
+            border-radius: 24px 24px 0 0;
+        }
+        .qr-wrapper {
+            background: rgba(72, 184, 92, 0.4); margin: -25px 25px 25px;
+            padding: 20px; border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center;
+            position: relative;
+        }
+        .qr-img { width: 100%; max-width: 220px; display: block; margin: 0 auto; border-radius: 10px; }
+        
+        .modal-body { padding: 0 25px 25px; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; font-size: 0.85rem; font-weight: 600; color: white; margin-bottom: 6px; margin-left: 4px; }
+        .form-input {
+            width: 100%; padding: 12px; border: 1px solid var(--glass-border);
+            border-radius: 12px; font-size: 0.95rem; outline: none; background: rgba(255, 255, 255, 0.699);
+            transition: 0.3s;
+        }
+        .form-input:focus { border-color: var(--telebirr-green); background: white; box-shadow: 0 0 0 4px rgba(72, 184, 92, 0.1); }
+        
+        .btn-confirm {
+            width: 100%; padding: 15px; background: var(--telebirr-green); color: white;
+            border: none; border-radius: 12px; font-weight: 700; font-size: 1rem;
+            cursor: pointer; margin-top: 10px; transition: 0.2s;
+            box-shadow: 0 10px 20px rgba(72, 184, 92, 0.3);
+        }
+        .btn-confirm:hover { background: #3da04d; transform: translateY(-2px); }
+        .btn-confirm:disabled { background: #a3d6ad; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* 🍞 TOAST NOTIFICATION */
+        .toast-container {
+            position: fixed; top: 25px; right: 25px; z-index: 9999;
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        .toast {
+            min-width: 320px; padding: 18px 20px; border-radius: 14px;
+            color: white; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 15px;
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
+            animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .toast.success { background: linear-gradient(135deg, #10b981, #059669); }
+        .toast.error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        @keyframes slideInRight { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            nav { padding: 1rem; }
+            .search-container { display: none !important; }
+            .cart-drawer { width: 100%; right: -100%; }
+        }
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.5rem; }
+        }
+
+    </style>
+</head>
+<body data-theme="light">
+
+    <!-- LOADER -->
+    <div id="loader">
+        <div class="loader-orb"></div>
+        <h2 style="font-weight:700; letter-spacing:1px; margin-top:10px;">Kidus Order</h2>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- CART OVERLAY & DRAWER -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="drawer-header">
+            <h3 style="font-size:1.4rem;">Your Cart</h3>
+            <button onclick="toggleCart()" style="background:none; border:none; font-size:1.8rem; cursor:pointer; color:var(--text-main);">&times;</button>
+        </div>
+        <div class="drawer-body" id="cartItems">
+            <!-- JS Injected -->
+        </div>
+        <div class="drawer-footer">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <span style="font-weight:600; color:var(--text-muted);">Total Amount</span>
+                <span id="cartTotal" style="font-weight:800; font-size:1.5rem; color:var(--primary);">0 ETB</span>
+            </div>
+
+            <button class="btn-pay-telebirr" onclick="openCartTelebirr()">
+                <i class="fas fa-qrcode"></i> Pay via Telebirr
+            </button>
+
+            <button class="btn btn-primary" style="width:100%; padding:15px;" onclick="showToast('Standard Checkout (Cash/Bank) selected.', 'success')">
+                Standard Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- 💳 TELEBIRR PAYMENT MODAL -->
+    <div class="modal-backdrop" id="telebirrModal">
+        <div class="modal-content">
+            <div class="telebirr-header">
+                <div style="font-size:1.6rem; font-weight:800; letter-spacing:2px;">TELEBIRR</div>
+                <div style="font-size:0.9rem; opacity:0.9; margin-top:5px;" id="telebirrInstruction">Scan to Pay</div>
+            </div>
+            
+            <div class="qr-wrapper">
+                <div style="font-size:0.85rem; font-weight:600; color:#fff8f8; margin-bottom:10px;">MESERT (+251900******569)</div>
+                <img id="telebirrQrImage" src="https://z-cdn-media.chatglm.cn/files/1da5c3f4-47c5-42cb-96c3-83ea1770e63f.jpg?auth_key=1876538267-d1794ea9e29e4b4eb3adafc9da25f7f5-0-7039fbc9c2a4c47a6f39c2fb9dcfb800" alt="Telebirr QR" class="qr-img">
+                <button class="btn btn-outline" style="margin-top:15px; font-size:0.8rem; padding:8px 15px;" onclick="downloadTelebirrQR()">
+                    <i class="fas fa-download"></i> Save QR
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- 
+                   Form Tag Added for Semantic Correctness, 
+                   though we handle submission via JS to format the email body.
+                -->
+                <form id="paymentForm" onsubmit="event.preventDefault(); confirmPayment();">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="payName" class="form-input" placeholder="e.g. John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="payEmail" class="form-input" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" id="payPhone" class="form-input" placeholder="0911..." required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Transaction ID</label>
+                        <input type="text" id="trxInput" class="form-input" placeholder="e.g. T123456789" required>
+                    </div>
+                    
+                    <button id="confirmPaymentBtn" type="submit" class="btn-confirm">Send Order via Email</button>
+                    <button type="button" style="width:100%; margin-top:10px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:0.9rem; font-weight:500;" onclick="closeModal('telebirrModal')">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🛠️ WEBSITE SERVICE MODAL -->
+    <div class="modal-backdrop" id="serviceModal">
+        <div class="modal-content" style="max-width:500px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding:0 10px;">
+                <h3 style="font-size:1.3rem;">Customize Service</h3>
+                <button onclick="closeModal('serviceModal')" style="border:none; background:none; font-size:1.5rem; color:var(--text-main);">&times;</button>
+            </div>
+            <h4 id="svcName" style="color:var(--primary); margin-bottom:15px; font-size:1.1rem; padding:0 10px;"></h4>
+            
+            <div style="padding:0 10px;">
+                <label style="font-size:0.9rem; font-weight:600; display:block; margin-bottom:8px;">Describe Your Idea</label>
+                <textarea id="svcDesc" style="width:100%; padding:12px; border:1px solid var(--glass-border); border-radius:12px; font-family:var(--font-main); font-size:0.9rem; background:rgba(255,255,255,0.5);" rows="4" placeholder="E.g. I want a 5-page website with a dark theme..."></textarea>
+                
+                <label style="font-size:0.9rem; font-weight:600; margin-top:20px; display:block;">Select Domain (+1500 ETB)</label>
+                <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;">
+                    <label style="cursor:pointer; padding:5px 10px; background:rgba(255,255,255,0.5); border-radius:8px; border:1px solid var(--glass-border);"><input type="radio" name="dom" value="none" checked onclick="calcServiceTotal()"> None</label>
+                    <label style="cursor:pointer; padding:5px 10px; background:rgba(255,255,255,0.5); border-radius:8px; border:1px solid var(--glass-border);"><input type="radio" name="dom" value=".com" onclick="calcServiceTotal()"> .com</label>
+                    <label style="cursor:pointer; padding:5px 10px; background:rgba(255,255,255,0.5); border-radius:8px; border:1px solid var(--glass-border);"><input type="radio" name="dom" value=".net" onclick="calcServiceTotal()"> .net</label>
+                    <label style="cursor:pointer; padding:5px 10px; background:rgba(255,255,255,0.5); border-radius:8px; border:1px solid var(--glass-border);"><input type="radio" name="dom" value=".et" onclick="calcServiceTotal()"> .et</label>
+                </div>
+
+                <div style="background:var(--glass-bg); padding:15px; margin-top:25px; border-radius:12px; border:1px solid var(--glass-border); display:flex; justify-content:space-between; font-weight:800; font-size:1.1rem;">
+                    <span>Total:</span>
+                    <span id="svcTotal" style="color:var(--primary);">0 ETB</span>
+                </div>
+                <button class="btn btn-primary" style="width:100%; margin-top:20px; padding:14px;" onclick="addServiceToCart()">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🧭 NAVBAR -->
+    <nav>
+        <a href="#" class="brand">
+            <i class="fas fa-shopping-bag"></i> Kidus Order
+        </a>
+        
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchBar" class="search-input" placeholder="Search for products, services...">
+        </div>
+
+        <div class="nav-actions">
+            <button class="nav-icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <button class="nav-icon-btn" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge" id="cartCount">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 🏷️ CATEGORIES -->
+    <div class="category-scroll" id="catFilter">
+        <div class="cat-chip active" onclick="filterCat('all', this)">All Products</div>
+        <div class="cat-chip" onclick="filterCat('shoes', this)">Shoes</div>
+        <div class="cat-chip" onclick="filterCat('electronics', this)">Electronics</div>
+        <div class="cat-chip" onclick="filterCat('music', this)">Music</div>
+        <div class="cat-chip" onclick="filterCat('football', this)">Football</div>
+        <div class="cat-chip" onclick="filterCat('clothes', this)">Clothes</div>
+        <div class="cat-chip" onclick="filterCat('accessories', this)">Accessories</div>
+        <div class="cat-chip" onclick="filterCat('hometools', this)">Home Tools</div>
+        <div class="cat-chip" onclick="filterCat('cosmetics', this)">Cosmetics</div>
+        <div class="cat-chip" onclick="filterCat('useful thing', this)">Useful Things</div>
+        <div class="cat-chip" style="background:rgba(72, 184, 92, 0.15); color:var(--telebirr-green); border-color:var(--telebirr-green);" onclick="filterCat('website', this)">💻 Website Services</div>
+    </div>
+
+    <!-- 🛍️ MAIN CONTENT -->
+    <main id="mainContent">
+
+        <!-- 1. WEBSITE STORE (SERVICES) -->
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">💻 Website Store</h2>
+        </div>
+        <div class="grid section" data-cat="website">
+            <article class="card service" data-id="w1" data-cat="website" data-price="25000" data-name="E-commerce Website">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/w1/300/300" class="card-img" alt="Web"></div>
+                <div class="card-body">
+                    <div class="card-cat">Digital Service</div>
+                    <h3 class="card-title">E-commerce Website</h3>
+                    <div class="card-price">25,000 ETB</div>
+                    <button class="btn btn-service" onclick="openServiceModal('E-commerce Website', 25000)">Customize & Order</button>
+                </div>
+            </article>
+                <article class="card service" data-id="w2" data-cat="website" data-price="15500" data-name="Blog Website">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/w2/300/300" class="card-img" alt="Web"></div>
+                <div class="card-body">
+                    <div class="card-cat">Digital Blog</div>
+                    <h3 class="card-title">Blog Website</h3>
+                    <div class="card-price">15,500 ETB</div>
+                    <button class="btn btn-service" onclick="openServiceModal('Blog Website', 15500)">Customize & Order</button>
+                </div>
+            </article>
+                <article class="card service" data-id="w3" data-cat="website" data-price="35500" data-name="Hotel Booking Website">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/w3/300/300" class="card-img" alt="Web"></div>
+                <div class="card-body">
+                    <div class="card-cat">Hotel booking</div>
+                    <h3 class="card-title">Hotel Booking Website</h3>
+                    <div class="card-price">35,500 ETB</div>
+                    <button class="btn btn-service" onclick="openServiceModal('Hotel Booking Website', 35500)">Customize & Order</button>
+                </div>
+            </article>
+                <article class="card service" data-id="w4" data-cat="website" data-price="25500" data-name="Cafe & Restaurant Website">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/w4/300/300" class="card-img" alt="Web"></div>
+                <div class="card-body">
+                    <div class="card-cat">Table Booking</div>
+                    <h3 class="card-title">Cafe & Restaurant Website</h3>
+                    <div class="card-price">25,500 ETB</div>
+                    <button class="btn btn-service" onclick="openServiceModal('Cafe & Restaurant Website', 25500)">Customize & Order</button>
+                </div>
+            </article>
+                <article class="card service" data-id="w5" data-cat="website" data-price="40000" data-name="Course Website">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/w5/300/300" class="card-img" alt="Web"></div>
+                <div class="card-body">
+                    <div class="card-cat">Digital Service</div>
+                    <h3 class="card-title">Course Website</h3>
+                    <div class="card-price">40,000 ETB</div>
+                    <button class="btn btn-service" onclick="openServiceModal('Course Website', 40000)">Customize & Order</button>
+                </div>
+            </article>
+            <article class="card service" data-id="w6" data-cat="website" data-price="15000" data-name="Portfolio Website">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/w6/300/300" class="card-img" alt="Web"></div>
+                <div class="card-body">
+                    <div class="card-cat">Digital Service</div>
+                    <h3 class="card-title">Portfolio Website</h3>
+                    <div class="card-price">15,000 ETB</div>
+                    <button class="btn btn-service" onclick="openServiceModal('Portfolio Website', 15000)">Customize & Order</button>
+                </div>
+            </article>
+            <article class="card service" data-id="w7" data-cat="website" data-price="7000" data-name="School Management System">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/w7/300/300" class="card-img" alt="Web"></div>
+                <div class="card-body">
+                    <div class="card-cat">Digital Service</div>
+                    <h3 class="card-title">School System</h3>
+                    <div class="card-price">7,000 ETB</div>
+                    <button class="btn btn-service" onclick="openServiceModal('School Management System', 7000)">Customize & Order</button>
+                </div>
+            </article>
+            <article class="card service" data-id="w8" data-cat="website" data-price="4000" data-name="Business Landing Page">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/w8/300/300" class="card-img" alt="Web"></div>
+                <div class="card-body">
+                    <div class="card-cat">Digital Service</div>
+                    <h3 class="card-title">Landing Page</h3>
+                    <div class="card-price">4,000 ETB</div>
+                    <button class="btn btn-service" onclick="openServiceModal('Business Landing Page', 4000)">Customize & Order</button>
+                </div>
+            </article>
+        </div>
+
+        <!-- 2. SHOES -->
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">👟 Shoes Store</h2>
+        </div>
+        <div class="grid section" data-cat="shoes">
+            <article class="card" data-id="s1" data-cat="shoes" data-price="4500" data-name="Nike Air Max">
+                <div class="card-img-wrapper"><img src="data:image/jpeg;base64,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
+                <div class="card-body"><h3 class="card-title">Nike Air Max</h3><div class="card-price">4,500 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('s1')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('s1')">Pay</button></div></div>mI11ZP0dRkHdqOwCqUHI4LEOa51GgYpb7DlY5zb8HBp8lvWOsA7WAa7LXOQQufIGDWzWm1czfZ3rpsq0KylIVhalIQVoTUhBuRgT2JhgT2LqRge5SMF3IOXGBKx8fwUTMLSBmo5XEXlP+wF1OLYYxYhfJ3MAJXP4rpDIw1/+fMK5va9o+IaUHn2Mwr4XmOVuV7fgRyIPNp7VOFEZOWWw0/LaMxb3kcx4a9l7LoeNdI452ZJ8I0VeVxlLZGE82nLp4bGtQuWMjRsRXiEGfj+GPiAkaRNC68so1Gm4JGx7rPxsBMJio2A5mmz8kkuYeXx8bVWC4i+F2eGUxO01Y7LdbZhs4dxsK6XiTZDckcLid3Mb1Dj35WEMB78iDGcASSwt1cSG3loE7UVZiomtoFwJI5Gy09hUmSE7McP9dh/9azcNxl0TcrI4HCqDp8NBinjzlaR9yDVxsHLXvTOcPJS+UanSySdAGt17GjQeAoDsV/CeICCUTZGyOZ7odeVrvnVzI5dm+9UGfw7o3iZqcWdUzQ5pLa4jubv8a3WzgxGK4c4CRnWQk/W8adQvzAOh0oWoPTmY/s2fEqufpi+RpY+GNzHAgtN0Qg77hnEIMXGHNyvFe64AlvlyWWcEzlbe4ONeQO3kvDXENdbLbrY19pv735rPw/HsXGKZipQOwyOcPg60HqvF3wYWF88gzZWmsxtznEUGi9roBcBg+lsrZM0sUUkROsbYmtLW/Qdvfjfly0uN4lNiK66Z0tagPcSAe4bAqgBB7DgJMPiIxJEGuYQdW6ObehBrVp5ELKGBYTevnR53zC8aw2IkidmikdG7tY8sJ8a3Ww/pNjQK9af8W38aUg9gw+BjbqGgGqvY/ctR0t6UQ4WF8UUodinNLWsjIPVOIrO6tG1vXOl5biOL4iX+0xErx80yPo+Wyx2g8hXf/JSCxhIqjVbEbjzWywPD5cR7bi7Jye6yXH6N7jv2VuAxeDiougfK4fKkcxw51TdG9nLktuOk2HO8cg8mH81RThOFtiFN1J3cfed/LuVxw5TjpBhTuHjxYPyKvh4phX6Ncb+o/8ARUYRgKQwFb1kDXajXyKDg+5BoeoKFvPUu5CDtgxMGhMCmCioAUhqYKUEAIMQO4B8RaYJkFPqcZ3Y0/uBB4dCd4mHxjafyV9pggwncFwh3w0J8YIj+IVf9HMCd8Hhz/4sP8K2QUoNa3o9ghthIB4YeIfkmPAMH/lofsY/0WwpSg1jujmCO+Fh+wj/AEVD+ieAO+Dg+wYPyW6Qg593Qvhx/ukXkwBUv6BcNdvhWeTpG/g5dOoQcmfR1wz/AC5HhPiP40p9G/Df8Jw/15v4l1pKi0HIH0b8N/w3/by/qo/4c8OH7J/28v8AEuvJSkoOUb6PuHD9k77ef+JMOg3DxtD8ZJT+Ll09qEHNDojgxth2+eY/iUw6M4Mf3aP7NpXQOCrc1EaZvBsO33YWN8I2D8k/qjRs0DwAC2JYkc1Br3YdIcP3LYFqUtQYHq/d9yFnZUIMzMmDwsUPTh6qskFMCFjdYp6xBlBykFYvWKRKiMvMpDli9YjrEGXmU5liCRSJEVl5kZ1i9Yp6xBkZ0B6x86jrFEZOdRnWOXo6xBeXJc6pL0udUXlyUuVPWKM6C7MozqnOozqC4vSFyrL0rnoHLkhckzJc6odzkhclL0udQPm70JM6EDgqQltSCqGCYJbUgoGpSoClBIUhLam0EqQUpKLQOi0gci0D2i0lozIGzItIXKCUDlyUvS2otAxelL1BKW0Dl6jMktKUDl6UvSWlJQOXJS5I5yUlA+ZKXqsuUEoHzIVeZCDNamCEIGClCEEhShCAClCEAEyEIBQhCCOSAhCCCoQhAKEIQKUpQhArkKEIFKUoQgrKUqUIFSuQhAqEIQf/2Q==" class="card-img"></div>
+            </article>
+            <article class="card" data-id="s2" data-cat="shoes" data-price="3200" data-name="Adidas Ultraboost">
+               
+               
+                <div class="card-img-wrapper"><img src=""
+                                </div>
+        </div>
+
+        <!-- 3. ELECTRONICS -->
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">📱 Electronics Store</h2>
+        </div>
+        <div class="grid section" data-cat="electronics">
+            <article class="card" data-id="e1" data-cat="electronics" data-price="15000" data-name="iPhone 13">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/e1/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">iPhone 13</h3><div class="card-price">15000 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('e1')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('e1')">Pay</button></div></div>
+            </article>
+            <!-- Music items categorized here or in Music section below -->
+            <article class="card" data-id="m1" data-cat="music" data-price="2500" data-name="Wireless Headphones">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/m1/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Wireless Headphones</h3><div class="card-price">2500 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('m1')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('m1')">Pay</button></div></div>
+            </article>
+        </div>
+
+        <!-- 4. MUSIC -->
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">🎵 Music Store</h2>
+        </div>
+        <div class="grid section" data-cat="music">
+            <article class="card" data-id="m2" data-cat="music" data-price="4500" data-name="Portable Speaker">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/m2/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Portable Speaker</h3><div class="card-price">4500 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('m2')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('m2')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="m3" data-cat="music" data-price="800" data-name="Microphone USB">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/m3/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Microphone USB</h3><div class="card-price">800 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('m3')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('m3')">Pay</button></div></div>
+            </article>
+             <article class="card" data-id="m4" data-cat="music" data-price="200" data-name="Guitar Picks Pack">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/m4/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Guitar Picks Pack</h3><div class="card-price">200 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('m4')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('m4')">Pay</button></div></div>
+            </article>
+        </div>
+
+        <!-- 5. FOOTBALL STORE -->
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">⚽ Football Store</h2>
+        </div>
+        <div class="grid section" data-cat="football">
+            <article class="card" data-id="f1" data-cat="football" data-price="2500" data-name="Pro Jersey Home">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/f1/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Pro Jersey Home</h3><div class="card-price">2500 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('f1')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('f1')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="f2" data-cat="football" data-price="3200" data-name="Football Boots Size 42">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/f2/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Football Boots</h3><div class="card-price">3200 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('f2')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('f2')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="f3" data-cat="football" data-price="1500" data-name="Official Match Ball">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/f3/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Official Match Ball</h3><div class="card-price">1500 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('f3')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('f3')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="f4" data-cat="football" data-price="800" data-name="Goalkeeper Gloves">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/f4/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Goalkeeper Gloves</h3><div class="card-price">800 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('f4')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('f4')">Pay</button></div></div>
+            </article>
+        </div>
+
+        <!-- 6. CLOTHES STORE -->
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">👕 Clothes Store</h2>
+        </div>
+        <div class="grid section" data-cat="clothes">
+            <article class="card" data-id="c1" data-cat="clothes" data-price="600" data-name="Cotton T-Shirt">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/c1/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Cotton T-Shirt</h3><div class="card-price">600 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('c1')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('c1')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="c2" data-cat="clothes" data-price="1500" data-name="Denim Jacket">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/c2/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Denim Jacket</h3><div class="card-price">1500 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('c2')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('c2')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="c3" data-cat="clothes" data-price="1200" data-name="Slim Fit Jeans">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/c3/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Slim Fit Jeans</h3><div class="card-price">1200 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('c3')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('c3')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="c4" data-cat="clothes" data-price="450" data-name="Baseball Cap">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/c4/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Baseball Cap</h3><div class="card-price">450 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('c4')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('c4')">Pay</button></div></div>
+            </article>
+        </div>
+
+        <!-- 7. ACCESSORIES STORE -->
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">⌚ Accessories Store</h2>
+        </div>
+        <div class="grid section" data-cat="accessories">
+            <article class="card" data-id="a1" data-cat="accessories" data-price="3000" data-name="Luxury Watch">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/a1/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Luxury Watch</h3><div class="card-price">3000 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('a1')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('a1')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="a2" data-cat="accessories" data-price="500" data-name="Polarized Sunglasses">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/a2/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Polarized Sunglasses</h3><div class="card-price">500 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('a2')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('a2')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="a3" data-cat="accessories" data-price="350" data-name="Leather Belt">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/a3/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Leather Belt</h3><div class="card-price">350 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('a3')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('a3')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="a4" data-cat="accessories" data-price="800" data-name="Silver Necklace">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/a4/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Silver Necklace</h3><div class="card-price">800 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('a4')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('a4')">Pay</button></div></div>
+            </article>
+        </div>
+
+        <!-- 8. HOME TOOLS STORE -->
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">🛠️ Home Tools Store</h2>
+        </div>
+        <div class="grid section" data-cat="hometools">
+            <article class="card" data-id="h1" data-cat="hometools" data-price="2200" data-name="Power Drill Kit">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/h1/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Power Drill Kit</h3><div class="card-price">2200 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('h1')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('h1')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="h2" data-cat="hometools" data-price="400" data-name="Steel Hammer">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/h2/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Steel Hammer</h3><div class="card-price">400 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('h2')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('h2')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="h3" data-cat="hometools" data-price="250" data-name="Screwdriver Set">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/h3/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Screwdriver Set</h3><div class="card-price">250 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('h3')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('h3')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="h4" data-cat="hometools" data-price="600" data-name="Measuring Tape">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/h4/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Measuring Tape</h3><div class="card-price">600 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('h4')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('h4')">Pay</button></div></div>
+            </article>
+        </div>
+
+        <!-- 9. COSMETICS STORE -->
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">💄 Cosmetics Store</h2>
+        </div>
+        <div class="grid section" data-cat="cosmetics">
+            <article class="card" data-id="co1" data-cat="cosmetics" data-price="550" data-name="Matte Lipstick">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/co1/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Matte Lipstick</h3><div class="card-price">550 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('co1')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('co1')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="co2" data-cat="cosmetics" data-price="700" data-name="Volume Mascara">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/co2/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Volume Mascara</h3><div class="card-price">700 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('co2')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('co2')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="co3" data-cat="cosmetics" data-price="1200" data-name="Face Cream Set">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/co3/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Face Cream Set</h3><div class="card-price">1200 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('co3')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('co3')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="co4" data-cat="cosmetics" data-price="2500" data-name="Luxury Perfume">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/co4/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Luxury Perfume</h3><div class="card-price">2500 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('co4')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('co4')">Pay</button></div></div>
+            </article>
+        </div>
+
+        <!-- 10. USEFUL THINGS STORE -->
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">🧠 Useful Things Store</h2>
+        </div>
+        <div class="grid section" data-cat="useful thing">
+            <article class="card" data-id="u1" data-cat="useful thing" data-price="350" data-name="Insulated Water Bottle">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/u1/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Insulated Water Bottle</h3><div class="card-price">350 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('u1')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('u1')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="u2" data-cat="useful thing" data-price="1800" data-name="Travel Backpack">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/u2/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Travel Backpack</h3><div class="card-price">1800 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('u2')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('u2')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="u3" data-cat="useful thing" data-price="250" data-name="Compact Umbrella">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/u3/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">Compact Umbrella</h3><div class="card-price">250 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('u3')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('u3')">Pay</button></div></div>
+            </article>
+            <article class="card" data-id="u4" data-cat="useful thing" data-price="450" data-name="LED Desk Lamp">
+                <div class="card-img-wrapper"><img src="https://picsum.photos/seed/u4/300/300" class="card-img"></div>
+                <div class="card-body"><h3 class="card-title">LED Desk Lamp</h3><div class="card-price">450 ETB</div><div class="btn-group"><button class="btn btn-primary" onclick="addToCart('u4')">Add</button><button class="btn btn-outline" onclick="openTelebirrModal('u4')">Pay</button></div></div>
+            </article>
+        </div>
+
+    </main>
+
+    <footer style="background:var(--glass-bg); backdrop-filter:blur(20px); color:var(--text-main); padding:4rem 1.5rem; text-align:center; border-top:1px solid var(--glass-border);">
+        <h2 style="font-size:1.8rem; margin-bottom:10px;">Kidus Order</h2>
+        <p style="opacity:0.7;">Premium products and digital services.</p>
+        <div style="margin-top:20px; display:flex; justify-content:center; gap:25px; font-size:1.5rem;">
+            <i class="fab fa-tiktok hover:scale-110 transition-transform cursor-pointer"></i>
+            <i class="fab fa-telegram hover:scale-110 transition-transform cursor-pointer"></i>
+            <i class="fab fa-instagram hover:scale-110 transition-transform cursor-pointer"></i>
+        </div>
+        <p style="margin-top:30px; font-size:0.8rem; opacity:0.5;">&copy; 2026 Kidus Order. All rights reserved.</p>
+    </footer>
+
+    <!-- ⚙️ LOGIC -->
+    <script>
+        // 1. INIT & LOADER
+        window.addEventListener('load', () => {
+            setTimeout(() => { 
+                document.getElementById('loader').style.opacity = '0'; 
+                setTimeout(()=>document.getElementById('loader').remove(),600); 
+            }, 1000);
+            
+            renderCart();
+            setupScrollAnimations();
+        });
+
+        // 📜 SCROLL ANIMATION OBSERVER
+        function setupScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-on-scroll, .card').forEach(el => observer.observe(el));
+        }
+
+        // 3. THEME TOGGLE
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const body = document.body;
+            const icon = document.querySelector('#themeToggle i');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // 4. CART SYSTEM
+        let cart = JSON.parse(localStorage.getItem('kidusCart')) || [];
+        let directOrderItem = null;
+
+        function addToCart(id) {
+            const el = document.querySelector(`.card[data-id="${id}"]`);
+            if(!el) return;
+            const item = {
+                id: id,
+                name: el.dataset.name,
+                price: parseInt(el.dataset.price),
+                img: el.querySelector('img').src,
+                qty: 1,
+                desc: null 
+            };
+            const existing = cart.find(x => x.id === id);
+            if(existing) existing.qty++; else cart.push(item);
+            saveCart();
+            toggleCart(true);
+            showToast("Added to Cart", "success");
+        }
+
+        function removeFromCart(idx) { cart.splice(idx,1); saveCart(); }
+        function changeQty(idx, delta) { cart[idx].qty += delta; if(cart[idx].qty<1) cart[idx].qty=1; saveCart(); }
+
+        function saveCart() {
+            localStorage.setItem('kidusCart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItems');
+            const totalEl = document.getElementById('cartTotal');
+            const countEl = document.getElementById('cartCount');
+            
+            container.innerHTML = '';
+            let total = 0;
+            let count = 0;
+
+            if(cart.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding-top:50px; opacity:0.5;"><i class="fas fa-shopping-basket" style="font-size:3rem; margin-bottom:15px;"></i><p>Your cart is empty.</p></div>`;
+            } else {
+                cart.forEach((item, idx) => {
+                    total += item.price * item.qty;
+                    count += item.qty;
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    let descHtml = item.desc ? `<div style="font-size:0.75rem; color:var(--text-muted); margin-top:5px; font-style:italic;">"${item.desc}"</div>` : '';
+                    
+                    div.innerHTML = `
+                        <img src="${item.img}" class="cart-img">
+                        <div class="cart-details">
+                            <div class="cart-title">${item.name}</div>
+                            <div class="cart-price">${item.price} ETB</div>
+                            ${descHtml}
+                            <div class="cart-controls">
+                                <button class="qty-btn" onclick="changeQty(${idx}, -1)">-</button>
+                                <span>${item.qty}</span>
+                                <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+                                <button class="qty-btn" style="color:red;" onclick="removeFromCart(${idx})">&times;</button>
+                            </div>
+                        </div>
+                        <div style="font-weight:700;">${(item.price*item.qty).toLocaleString()}</div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+            totalEl.innerText = total.toLocaleString() + ' ETB';
+            countEl.innerText = count;
+        }
+
+        // 5. SERVICE MODAL
+        let currentSvcBase = 0;
+        function openServiceModal(name, price) {
+            currentSvcBase = price;
+            document.getElementById('svcName').innerText = name;
+            document.getElementById('svcDesc').value = '';
+            document.querySelector('input[name="dom"][value="none"]').checked = true;
+            calcServiceTotal();
+            document.getElementById('serviceModal').classList.add('active');
+        }
+
+        function calcServiceTotal() {
+            const dom = document.querySelector('input[name="dom"]:checked').value;
+            const extra = (dom !== 'none') ? 1500 : 0;
+            document.getElementById('svcTotal').innerText = (currentSvcBase + extra).toLocaleString() + ' ETB';
+        }
+
+        function addServiceToCart() {
+            const name = document.getElementById('svcName').innerText;
+            const desc = document.getElementById('svcDesc').value.trim();
+            const dom = document.querySelector('input[name="dom"]:checked').value;
+            const finalPrice = currentSvcBase + (dom!=='none'?1500:0);
+            
+            cart.push({
+                id: 'svc-'+Date.now(),
+                name: `${name} (${dom==='none'?'No Domain':dom})`,
+                price: finalPrice,
+                qty: 1,
+                img: 'https://picsum.photos/seed/web/50/50',
+                desc: desc
+            });
+            saveCart();
+            closeModal('serviceModal');
+            toggleCart(true);
+            showToast("Service Customized & Added!", "success");
+        }
+
+        // 6. TELEBIRR & FORM SUBMIT
+        
+        function openTelebirrModal(id) {
+            const el = document.querySelector(`.card[data-id="${id}"]`);
+            directOrderItem = null;
+
+            if(el) {
+                directOrderItem = {
+                    name: el.dataset.name,
+                    price: parseInt(el.dataset.price),
+                    qty: 1,
+                    desc: null
+                };
+                
+                document.getElementById('telebirrInstruction').innerHTML = `Scan to Pay <br><span style="font-weight:bold; font-size:1.1rem; color:#fffdd0;">${directOrderItem.price.toLocaleString()} ETB</span>`;
+            } else {
+                document.getElementById('telebirrInstruction').innerText = "Scan to Pay";
+            }
+
+            document.getElementById('trxInput').value = '';
+            document.getElementById('payName').value = '';
+            document.getElementById('payEmail').value = '';
+            document.getElementById('payPhone').value = '';
+            document.getElementById('telebirrModal').classList.add('active');
+        }
+
+        function openCartTelebirr() {
+            let total = 0;
+            cart.forEach(item => total += item.price * item.qty);
+
+            if (total === 0) {
+                showToast("Your cart is empty!", "error");
+                return;
+            }
+
+            directOrderItem = null;
+
+            const instructionText = document.getElementById('telebirrInstruction');
+            instructionText.innerHTML = `Pay Total: <span style="font-weight:bold; font-size:1.1rem; color:#fffdd0;">${total.toLocaleString()} ETB</span>`;
+
+            document.getElementById('trxInput').value = '';
+            document.getElementById('payName').value = '';
+            document.getElementById('payEmail').value = '';
+            document.getElementById('payPhone').value = '';
+            
+            document.getElementById('telebirrModal').classList.add('active');
+            toggleCart(false);
+        }
+
+        async function downloadTelebirrQR() {
+            const img = document.getElementById('telebirrQrImage');
+            const imageSrc = img.src;
+            try {
+                const image = await fetch(imageSrc);
+                const imageBlog = await image.blob();
+                const imageURL = URL.createObjectURL(imageBlog);
+                const link = document.createElement('a');
+                link.href = imageURL;
+                link.download = 'Telebirr_Payment_MESERT.jpg';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error("Download failed, opening in new tab.", error);
+                window.open(imageSrc, '_blank');
+            }
+        }
+
+        function confirmPayment() {
+            const name = document.getElementById('payName').value.trim();
+            const email = document.getElementById('payEmail').value.trim();
+            const phone = document.getElementById('payPhone').value.trim();
+            const trx = document.getElementById('trxInput').value.trim();
+
+            if (!name || !email || !phone) {
+                showToast("Please fill in Name, Email, and Phone Number.", "error");
+                return;
+            }
+            if(trx.length < 3) {
+                showToast("Please enter a valid Transaction ID.", "error");
+                return;
+            }
+
+            let orderListText = "";
+            let totalAmount = 0;
+            
+            if (directOrderItem) {
+                orderListText = `${directOrderItem.name} (Qty: 1) - ${directOrderItem.price.toLocaleString()} ETB`;
+                totalAmount = directOrderItem.price;
+            } else {
+                cart.forEach(item => {
+                    if(item.desc && item.desc !== "") {
+                        orderListText += `${item.name} (Qty: ${item.qty}) - ${(item.price * item.qty).toLocaleString()} ETB\nNote: ${item.desc}\n`;
+                    } else {
+                        orderListText += `${item.name} (Qty: ${item.qty}) - ${(item.price * item.qty).toLocaleString()} ETB\n`;
+                    }
+                    totalAmount += item.price * item.qty;
+                });
+            }
+
+            const btn = document.getElementById('confirmPaymentBtn');
+            const originalBtnText = btn.innerText;
+            btn.disabled = true;
+            btn.innerText = "Preparing Email...";
+
+            const currentDate = new Date().toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+
+            // *** FIX: Native Mailto Submission instead of EmailJS ***
+            const recipient = "pedu0817@gmail.com";
+            const subject = `New Order from ${name} - Trx: ${trx}`;
+            const body = `ORDER DETAILS:\n----------------\n${orderListText}\n----------------\nTOTAL: ${totalAmount.toLocaleString()} ETB\n\nCUSTOMER INFO:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nTransaction ID: ${trx}\nDate: ${currentDate}`;
+            
+            setTimeout(() => {
+                window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+                showToast("Opening your email app...", "success");
+                
+                if (!directOrderItem) {
+                    cart = []; 
+                    saveCart();
+                    renderCart();
+                }
+                
+                closeModal('telebirrModal');
+                directOrderItem = null; 
+                
+                btn.disabled = false;
+                btn.innerText = originalBtnText;
+            }, 1000); 
+        }
+
+        // 7. TOAST NOTIFICATIONS
+        function showToast(message, type = "success") {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // 8. UI HELPERS
+        function toggleCart(forceOpen = null) {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            if(forceOpen === true) {
+                drawer.classList.add('active'); overlay.classList.add('active');
+            } else if(forceOpen === false) {
+                drawer.classList.remove('active'); overlay.classList.remove('active');
+            } else {
+                drawer.classList.toggle('active'); overlay.classList.toggle('active');
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            if(id === 'telebirrModal') {
+                directOrderItem = null;
+            }
+        }
+
+        function filterCat(cat, btn) {
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            
+            document.querySelectorAll('.section').forEach(sec => {
+                if(cat === 'all' || sec.dataset.cat === cat) {
+                    sec.style.display = 'grid';
+                    sec.previousElementSibling.style.display = 'flex';
+                } else {
+                    sec.style.display = 'none';
+                    sec.previousElementSibling.style.display = 'none';
+                }
+            });
+        }
+
+        // 9. SEARCH LOGIC
+        document.getElementById('searchBar').addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            
+            // 1. Reset Visibility
+            document.querySelectorAll('.section').forEach(sec => {
+                sec.style.display = 'grid';
+                sec.previousElementSibling.style.display = 'flex';
+            });
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+
+            if (term === "") {
+                document.querySelectorAll('.card').forEach(card => card.style.display = 'flex');
+                return;
+            }
+
+            // 2. Loop through static HTML cards
+            document.querySelectorAll('.card').forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                if (name.includes(term)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // 3. Hide empty categories
+            document.querySelectorAll('.grid.section').forEach(grid => {
+                const visibleCards = Array.from(grid.children).filter(c => c.style.display !== 'none');
+                if (visibleCards.length === 0) {
+                    grid.style.display = 'none';
+                    grid.previousElementSibling.style.display = 'none';
+                } else {
+                    grid.style.display = 'grid';
+                    grid.previousElementSibling.style.display = 'flex';
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
